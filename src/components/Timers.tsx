@@ -13,6 +13,8 @@ interface Params {
 }
 
 const Timers = ({ timers, currentTimer, setCurrentTimer }: Params) => {
+  console.log(currentTimer);
+
   return (
     <div>
       {/* Suggested code may be subject to a license. Learn more: ~LicenseLog:738985320. */}
