@@ -88,7 +88,7 @@ export function App() {
 
   return (
     <main
-      className={`w-screen h-screen flex flex-col justify-around items-center bg-red-500 text-white roboto-regular`}
+      className={`w-screen h-screen flex flex-col justify-between py-28 items-center bg-red-500 text-white roboto-regular`}
     >
       {/* timers */}
       <Timers
@@ -102,7 +102,14 @@ export function App() {
       <Timer time={time} />
 
       {/* control */}
-      <Control start={start} pause={pause} reset={reset} />
+      <Control
+        start={start}
+        pause={pause}
+        reset={reset}
+        running={running}
+        time={time}
+        currentTimer={currentTimer}
+      />
     </main>
   );
 }
