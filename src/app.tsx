@@ -12,23 +12,51 @@ export const toMinutesAndSeconds = (seconds: number) => {
 };
 
 export function App() {
+  const [streak, setStreak] = useState(0);
   const [time, setTime] = useState(1500);
   const timers = {
-    focus: 1500,
-    shortBreak: 300,
-    longBreak: 1800,
+    focus: 10,
+    shortBreak: 5,
+    longBreak: 15,
   };
   const [currentTimer, setCurrentTimer] = useState(timers.focus);
   const [running, setRunning] = useState(false);
 
   useEffect(() => {
     let interval: number | null = null;
-    if (running && time > 0) {
+    if (running) {
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
-        document.title = `Time: ${toMinutesAndSeconds(time)}`;
-        console.log(time);
-      }, 1000);
+        setTime((prevTime) => {
+          console.log(prevTime);
+
+          if (prevTime > 0) {
+            return prevTime - 1;
+          }
+          if (currentTimer == timers.focus) {
+            setStreak((prevStreak) => {
+              if ((prevStreak + 1) % 4 == 0) {
+                setCurrentTimer(timers.longBreak);
+              } else {
+                setCurrentTimer(timers.shortBreak);
+              }
+              return prevStreak + 1;
+            });
+
+            // } else if (currentTimer == timers.shortBreak) {
+            //   setCurrentTimer(timers.longBreak);
+          } else {
+            setCurrentTimer(timers.focus);
+          }
+          pause();
+          setTime(currentTimer);
+          console.log("streak", streak);
+          return prevTime;
+        });
+
+        document.title = `${
+          currentTimer == timers.focus ? "Focus" : "Break"
+        } - ${toMinutesAndSeconds(time)}`;
+      }, 100);
     }
     return () => {
       if (interval) {
@@ -67,6 +95,7 @@ export function App() {
         timers={timers}
         currentTimer={currentTimer}
         setCurrentTimer={setCurrentTimer}
+        setStreak={setStreak}
       />
 
       {/* timer */}
