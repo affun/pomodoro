@@ -46,7 +46,7 @@ const Control = (params: Params) => {
         class={`${
           style.btn
         } border-2 border-white bg-white hover:bg-gray-100 text-red-500 ${
-          params.running && params.currentTimer != params.time ? "" : "hidden"
+          params.running ? "" : "hidden"
         }`}
       >
         Pause
