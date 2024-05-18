@@ -70,7 +70,7 @@ export function App() {
         document.title = `${
           currentTimer == timers.focus ? "Focus" : "Break"
         } - ${toMinutesAndSeconds(time)}`;
-      }, 10);
+      }, 1000);
     }
     return () => {
       if (interval) {
