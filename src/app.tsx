@@ -15,9 +15,9 @@ export function App() {
   const [streak, setStreak] = useState(0);
   const [time, setTime] = useState(1500);
   const timers = {
-    focus: 25,
-    shortBreak: 5,
-    longBreak: 30,
+    focus: 1500,
+    shortBreak: 300,
+    longBreak: 1800,
   };
   const [currentTimer, setCurrentTimer] = useState(timers.focus);
   const [running, setRunning] = useState(false);
@@ -25,6 +25,7 @@ export function App() {
     bg: "bg-red-500",
     text: "text-red-500",
   });
+  const [sweepAngle, setSweepAngle] = useState(360);
 
   useEffect(() => {
     let interval: number | null = null;
@@ -34,8 +35,12 @@ export function App() {
           console.log(prevTime);
 
           if (prevTime > 0) {
+            setSweepAngle((prevTime / currentTimer) * 360);
+
             return prevTime - 1;
           }
+          setSweepAngle(0);
+
           if (currentTimer == timers.focus) {
             setStreak((prevStreak) => {
               if (prevStreak + 1 == 4) {
@@ -99,6 +104,8 @@ export function App() {
   useEffect(() => {
     pause();
     changeTheme();
+    setSweepAngle(0);
+
     setTime(currentTimer);
   }, [currentTimer]);
 
@@ -118,6 +125,21 @@ export function App() {
     pause();
   };
 
+  const calculatePath = (angle: number) => {
+    const radius = 50;
+    const x = 50 + radius * Math.cos((angle - 90) * (Math.PI / 180));
+    const y = 50 + radius * Math.sin((angle - 90) * (Math.PI / 180));
+    const largeArcFlag = angle > 180 ? 1 : 0;
+    return `M50,50 L50,0 A50,50 0 ${largeArcFlag},1 ${x},${y} Z`;
+  };
+
+  const getColor = () => {
+    if (accent.bg === "bg-red-500") return "#ef4444";
+    if (accent.bg === "bg-green-400") return "#4ade80";
+    if (accent.bg === "bg-teal-500") return "#14b8a6";
+    return "#ffffff";
+  };
+
   return (
     <main
       className={`w-screen h-screen flex flex-col justify-between py-28 items-center transition-all duration-500 ${accent.bg} text-white roboto-regular`}
@@ -132,9 +154,32 @@ export function App() {
       />
 
       {/* timer */}
-      <div className={`flex flex-col items-center justify-center`}>
+      <div
+        className={`flex flex-col items-center justify-center overflow-visible`}
+      >
+        {/* <svg className={`absolute bg-gray-400 max-w-sm aspect-square w-4/5`}>
+          <path
+            d={`M 50% 50%
+           m 0, -50%
+           a 50%,50% 0 0,1 ${sweepAngle} 100%`}
+            fill="white"
+          />
+        </svg> */}
+        <svg
+          className={`absolute max-w-sm aspect-square w-4/5`}
+          viewBox="0 0 100 100"
+        >
+          <path d={calculatePath(sweepAngle)} fill="white" />
+          <circle
+            cx="50%"
+            cy="50%"
+            r="45%"
+            fill={getColor()}
+            className="transition-all duration-500"
+          />
+        </svg>
         <Timer time={time} setStreak={setStreak} />
-        <div className={`flex items-center justify-center gap-4`}>
+        <div className={`flex items-center justify-center gap-4 z-10`}>
           <div
             className={`w-2 h-2 bg-white rounded ${
               streak > 0 ? "opacity-100" : "opacity-25"

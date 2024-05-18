@@ -9,7 +9,7 @@ const Timer = ({
 }) => {
   return (
     <div
-      class={`roboto-medium text-8xl select-none`}
+      class={`roboto-medium text-8xl select-none z-10`}
       onDblClick={() => {
         setStreak(0);
       }}
