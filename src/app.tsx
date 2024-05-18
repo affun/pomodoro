@@ -15,9 +15,9 @@ export function App() {
   const [streak, setStreak] = useState(0);
   const [time, setTime] = useState(1500);
   const timers = {
-    focus: 10,
+    focus: 25,
     shortBreak: 5,
-    longBreak: 15,
+    longBreak: 30,
   };
   const [currentTimer, setCurrentTimer] = useState(timers.focus);
   const [running, setRunning] = useState(false);
