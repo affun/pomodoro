@@ -7,6 +7,10 @@ interface Params {
   running: boolean;
   time: number;
   currentTimer: number;
+  accent: {
+    text: string;
+    bg: string;
+  };
 }
 
 const Control = (params: Params) => {
@@ -18,7 +22,7 @@ const Control = (params: Params) => {
     btn: "uppercase text-lg w-full rounded-md roboto-medium transition-all duration-300 ease-in-out",
   };
   return (
-    <div className="flex flex-row items-center justify-between h-16 w-52">
+    <div className="flex flex-row items-center justify-between h-16 w-52 gap-2">
       {/* <div className={`flex justify-between`}> */}
       <button
         onClick={params.reset}
@@ -31,9 +35,9 @@ const Control = (params: Params) => {
 
       <button
         onClick={params.start}
-        class={`${
-          style.btn
-        } border-2 border-white bg-white hover:bg-gray-100 text-red-500 ${
+        class={`${style.btn} border-2 border-white bg-white hover:bg-gray-100 ${
+          params.accent.text
+        }  ${
           // Suggested code may be subject to a license. Learn more: ~LicenseLog:660615155.
           params.running ? "hidden" : ""
         }`}
@@ -43,11 +47,9 @@ const Control = (params: Params) => {
 
       <button
         onClick={params.pause}
-        class={`${
-          style.btn
-        } border-2 border-white bg-white hover:bg-gray-100 text-red-500 ${
-          params.running ? "" : "hidden"
-        }`}
+        class={`${style.btn} border-2 border-white bg-white hover:bg-gray-100 ${
+          params.accent.text
+        }  ${params.running ? "" : "hidden"}`}
       >
         Pause
       </button>

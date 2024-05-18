@@ -11,6 +11,10 @@ interface Params {
   currentTimer: number;
   setCurrentTimer: React.Dispatch<React.SetStateAction<number>>;
   setStreak: React.Dispatch<React.SetStateAction<number>>;
+  accent: {
+    text: string;
+    bg: string;
+  };
 }
 
 const Timers = ({
@@ -18,6 +22,7 @@ const Timers = ({
   currentTimer,
   setCurrentTimer,
   setStreak,
+  accent,
 }: Params) => {
   console.log(currentTimer);
 
@@ -25,7 +30,7 @@ const Timers = ({
     timer: {
       default: "font-medium relative px-2 timer-btn",
 
-      active: "font-medium relative px-2 text-red-500 z-10 timer-btn-active",
+      active: `font-medium relative px-2 ${accent.text} z-10 timer-btn-active`,
     },
   };
 

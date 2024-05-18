@@ -1,8 +1,21 @@
 import { toMinutesAndSeconds } from "../app";
 
-const Timer = ({ time }: { time: number }) => {
+const Timer = ({
+  time,
+  setStreak,
+}: {
+  time: number;
+  setStreak: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   return (
-    <div class={`roboto-medium text-8xl`}>{toMinutesAndSeconds(time)}</div>
+    <div
+      class={`roboto-medium text-8xl select-none`}
+      onDblClick={() => {
+        setStreak(0);
+      }}
+    >
+      {toMinutesAndSeconds(time)}
+    </div>
   );
 };
 
